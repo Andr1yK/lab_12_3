@@ -1,6 +1,9 @@
-m="$1"
+f="$1"
+s="$2"
 
-if [ "$m" == "--test" ] && [ -d "./build" ]; then
+echo $r;
+
+if ([ "$f" == "-t" ] || [ "$s" == "-t" ]) && [ -d "./build" ]; then
   rm -r "build"
 fi
 
@@ -10,8 +13,10 @@ cd ./build
 cmake .. &&
 make &&
 
-if [ "$m" == "--test" ]; then
+if [ "$f" == "-t" ] || [ "$s" == "-t" ]; then
   ./unittest
+elif [ "$f" == "-r" ] || [ "$s" == "-r" ]; then
+  ./demo_rec
 else
   ./demo
 fi

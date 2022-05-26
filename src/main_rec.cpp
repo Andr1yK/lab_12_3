@@ -1,5 +1,4 @@
 #include <iostream>
-
 #include "./extends/Elem.hpp"
 #include "./extends/Print.cpp"
 #include "./extends/Create.cpp"
@@ -9,17 +8,17 @@ using namespace std;
 
 int main()
 {
-  Elem *begin = NULL,
-       *end = NULL;
+  Elem* begin = NULL,
+    * end = NULL;
 
-  int a1[5] = {1, 0, 1, 3, 5};
+  int a[5] = { 1,0,1,3,5 };
 
   for (int i = 0; i < 5; i++)
   {
-    Create(begin, end, a1[i]);
+    Create(begin, end, a[i]);
   }
 
-  Print(begin);
+  Print_rec(begin);
 
   cout << FindTwoIdentical(begin) << endl;
 

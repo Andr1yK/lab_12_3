@@ -1,0 +1,173 @@
+main.cpp
+#include <iostream>
+
+#include "./extends/Elem.hpp"
+#include "./extends/Print.cpp"
+#include "./extends/Create.cpp"
+#include "./extends/FindTwoIdentical.cpp"
+
+using namespace std;
+
+int main()
+{
+  Elem *begin = NULL,
+       *end = NULL;
+
+  int a1[5] = {1, 0, 1, 3, 5};
+
+  for (int i = 0; i < 5; i++)
+  {
+    Create(begin, end, a1[i]);
+  }
+
+  Print(begin);
+
+  cout << FindTwoIdentical(begin) << endl;
+
+  return 0;
+
+
+./src/extends/Create.cpp
+#pragma once
+
+#ifndef _CREATE_
+#define _CREATE_
+
+#include <iostream>
+
+#include "./Elem.hpp"
+
+using namespace std;
+
+void Create(Elem *&first, Elem *&last, int value)
+{
+  Elem *tmp = new Elem;
+  
+  tmp->info = value;
+  tmp->next = NULL;
+
+  if (last != NULL)
+    last->next = tmp;
+
+  tmp->prev = last;
+  last = tmp;
+
+  if (first == NULL)
+    first = tmp;
+}
+
+#endif // !_CREATE_
+
+
+./src/extends/Elem.hpp
+#pragma once
+
+#ifndef _ELEM_
+#define _ELEM_
+
+struct Elem
+{
+  Elem *next,
+      *prev;
+  int info;
+};
+
+#endif // !_ELEM_
+
+
+./src/extends/FindTwoIdentical.cpp
+#pragma once
+
+#ifndef _FINDTWOIDENTICAL_
+#define _FINDTWOIDENTICAL_
+
+#include <iostream>
+
+#include "./Elem.hpp"
+
+bool FindTwoIdentical(Elem* begin) {
+  Elem* beginIner;
+
+  while (begin != NULL)
+  {
+    beginIner = begin->next;
+
+    while (beginIner != NULL)
+    {
+      if (begin->info == beginIner->info)
+        return true;
+
+      beginIner = beginIner->next;
+    }
+
+    begin = begin->next;
+  }
+
+  return false;
+}
+
+bool FindTwoIdenticalIner_rec(Elem* beginIner, Elem* begin) {
+  if (beginIner != NULL)
+  {
+    if (begin->info == beginIner->info)
+      return true;
+
+    return FindTwoIdenticalIner_rec(beginIner->next, begin);
+  }
+
+  return false;
+}
+
+bool FindTwoIdentical_rec(Elem* begin) {
+  Elem* beginIner;
+
+  if (begin != NULL)
+  {
+    if (FindTwoIdenticalIner_rec(begin->next, begin)) {
+      return true;
+    }
+
+    return FindTwoIdentical_rec(begin->next);
+  }
+
+  return false;
+}
+
+#endif // !_FINDTWOIDENTICAL_
+
+
+./src/extends/Print.cpp
+#pragma once
+
+#ifndef _PRINT_
+#define _PRINT_
+
+#include <iostream>
+
+#include "./Elem.hpp"
+
+using namespace std;
+
+void Print(Elem* begin) {
+  while (begin != NULL)
+  {
+    cout << begin->info << "t";
+    begin = begin->next;
+  }
+  
+  cout << endl;
+}
+
+void Print_rec(Elem* begin)
+{
+  if (begin != NULL)
+  {
+    cout << begin->info << "t";
+
+    Print_rec(begin->next);
+  } else {
+    cout << endl;
+  }
+}
+
+#endif // !_PRINT_
